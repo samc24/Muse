@@ -1,0 +1,7 @@
+imutils==0.5.4
+numpy @ file:///private/var/folders/k1/30mswbxs7r1g6zwn8y4fyt500000gp/T/abs_2bgq2wg6lu/croot/numpy_and_numpy_base_1738078509889/work/dist/numpy-2.2.2-cp312-cp312-macosx_11_0_arm64.whl#sha256=81375b613002064296c74201290d0a060a1247c9b4aebf7a304b764b4d60fcde
+opencv-python==4.10.0
+opencv-python-headless==4.10.0
+scipy @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_4c2xem2hut/croot/scipy_1737122914559/work/dist/scipy-1.15.1-cp312-cp312-macosx_11_0_arm64.whl#sha256=fb426b3a65583b12eacb4254a8ab1ab184943d6e0078c2a24eace60c37c151af
+setuptools==72.1.0
+wheel==0.45.1

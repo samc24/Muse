@@ -22,7 +22,7 @@ trace = 3500
 pts = deque(maxlen=64)
 
 play_name = 'fist21'
-video = "C:/Users/Sameer/Desktop/EyeBall-V2/5_cropped.mp4"#spurs_play_'+play_name+'.mp4'
+video = "/Users/Sameer/Documents/Coding/EyeBall-v2/5_cropped.mp4"#spurs_play_'+play_name+'.mp4'
 vs = cv2.VideoCapture(video)
 hasFrame, frame = vs.read()
 vid_writer = cv2.VideoWriter('5_detected.mp4', cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 10, (frame.shape[1], frame.shape[0]))
