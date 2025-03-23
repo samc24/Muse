@@ -7,7 +7,7 @@ import pandas as pd
 
 
 # TODO: Pass as argument
-vid = 'videos_4_15/game.avi' # game footage, should be changed approproately.
+vid = '/Users/Sameer/Documents/Coding/EyeBall-v2/videos_4_15/game.avi' # game footage, should be changed approproately.
 vidcap = cv2.VideoCapture(vid) # Open the video
 fps = vidcap.get(cv2.CAP_PROP_FPS)
 
@@ -129,7 +129,7 @@ while True:
 #             pcnt = cnt *100/frames # Percentage
 
             out.write(crop_frame)
-#             cv2.imshow('cropped',crop_frame)
+            cv2.imshow('cropped',crop_frame)
         i += 1
     else:
         break

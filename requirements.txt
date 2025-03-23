@@ -1,7 +1,15 @@
+Bottleneck @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_55txi4fy1u/croot/bottleneck_1731058642212/work
 imutils==0.5.4
+numexpr @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_b3kvvt6tc6/croot/numexpr_1730215947700/work
 numpy @ file:///private/var/folders/k1/30mswbxs7r1g6zwn8y4fyt500000gp/T/abs_2bgq2wg6lu/croot/numpy_and_numpy_base_1738078509889/work/dist/numpy-2.2.2-cp312-cp312-macosx_11_0_arm64.whl#sha256=81375b613002064296c74201290d0a060a1247c9b4aebf7a304b764b4d60fcde
 opencv-python==4.10.0
 opencv-python-headless==4.10.0
+pandas @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_4aifrweohv/croot/pandas_1732735109535/work/dist/pandas-2.2.3-cp312-cp312-macosx_11_0_arm64.whl#sha256=123f63647068e74a9e99f9fd6ab9ee71cd9f6d1c55fa82c75a587a95021910a5
+python-dateutil @ file:///private/var/folders/k1/30mswbxs7r1g6zwn8y4fyt500000gp/T/abs_66ud1l42_h/croot/python-dateutil_1716495741162/work
+pytz @ file:///private/var/folders/k1/30mswbxs7r1g6zwn8y4fyt500000gp/T/abs_a4b76c83ik/croot/pytz_1713974318928/work
 scipy @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_4c2xem2hut/croot/scipy_1737122914559/work/dist/scipy-1.15.1-cp312-cp312-macosx_11_0_arm64.whl#sha256=fb426b3a65583b12eacb4254a8ab1ab184943d6e0078c2a24eace60c37c151af
 setuptools==72.1.0
+shapely @ file:///private/var/folders/k1/30mswbxs7r1g6zwn8y4fyt500000gp/T/abs_0exwqjakdr/croot/shapely_1734445895146/work
+six @ file:///tmp/build/80754af9/six_1644875935023/work
+tzdata @ file:///croot/python-tzdata_1690578112552/work
 wheel==0.45.1
