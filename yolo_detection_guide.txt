@@ -1,0 +1,20 @@
+YOLO_DETECTION INSTRUCTIONS
+
+yolo_detection.py has two main functions:
+	save_tagged_frames(vid, output) which takes a video filename and an output folder and YOLO tags frames in "real-time", outputs the fps of the video
+		"real time" - times how long each tag takes, then waits that long until tagging the next frame
+	create_tagged_video(outputs, video_output, fps)	which takes the output pictures file, the filename of the output_video, and the fps 
+		and saves the video as though it was being tagged in real time. The function knows exactly how long to wait before loading the next frame to the video
+
+Go to https://github.com/eriklindernoren/PyTorch-YOLOv3 and follow all yolo-pytorch installation rules before running
+make sure working directory is in Pytorch-Yolo
+
+EXAMPLE USAGE:
+
+
+fps = ('../pano1.avi', '../output')
+# this will take a while
+create_tagged_video('../output', '../tagged_pano1.avi', fps)
+
+
+
