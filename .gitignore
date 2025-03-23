@@ -1,0 +1,22 @@
+# Ignore Python bytecode
+__pycache__/
+*.pyc
+
+# Ignore virtual environments
+env/
+venv/
+
+# Ignore sensitive files
+*.env
+config.yaml
+
+# Ignore logs and temp files
+logs/
+*.log
+.DS_Store
+
+# Ignore all .avi and .mp4 files
+*.avi
+*.mp4
+
+*.idea/
