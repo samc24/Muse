@@ -15,8 +15,16 @@ logs/
 *.log
 .DS_Store
 
-# Ignore all .avi and .mp4 files
 *.avi
 *.mp4
-
+*.csv
 *.idea/
+*.jpg
+*.cpp
+*.prototxt
+*.caffemodel
+*.png
+*.mpeg
+*.mpg
+*.zip
+*.fig
