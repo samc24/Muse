@@ -1,16 +1,16 @@
 import cv2, numpy as np, csv
 
 #https://github.com/opencv/opencv/blob/master/samples/dnn/openpose.py
-outfile_path = 'csv/wade2.csv'
+outfile_path = 'Users/Sameer/Documents/Coding/Muse/FollowThrough/csv/wade2.csv'
 
-protoFile = "pose/mpi/pose_deploy_linevec_faster_4_stages.prototxt"
+protoFile = "/Users/Sameer/Documents/Coding/Muse/FollowThrough/pose/mpi/pose_deploy_linevec_faster_4_stages.prototxt"
 # stores the weights of the trained model, trained on MPII dataset
-weightsFile = "pose/mpi/pose_iter_160000.caffemodel"
+weightsFile = "/Users/Sameer/Documents/Coding/Muse/FollowThrough/pose/mpi/pose_iter_160000.caffemodel"
 net = cv2.dnn.readNetFromCaffe(protoFile, weightsFile)
 
 data, input_width, input_height, threshold, frame_number = [], 368, 368, 0.1, 0
 
-input_source = "2kvids/wade2.mp4"
+input_source = "/Users/Sameer/Documents/Coding/Muse/FollowThrough/2kvids/wade2.mp4"
 cap = cv2.VideoCapture(input_source)
 
 # use the previous location of the body part if the model is wrong
