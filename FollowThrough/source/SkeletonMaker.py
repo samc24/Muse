@@ -56,7 +56,6 @@ class SkeletonMaker:
 
         # Pose connections for drawing lines between points
         self.pose_pairs = [
-            (0, 1), (0, 2),  # head to shoulders
             (1, 3), (3, 5),  # left arm
             (2, 4), (4, 6),  # right arm
             (1, 7), (2, 8),  # shoulders to hips
