@@ -33,6 +33,9 @@ logs/
 !images/**
 !EyeBall/assets/**
 !FollowThrough/assets/**
+# Demo artifacts -- small, committed for zero-friction demo
+!FollowThrough/demo/data/**
+!FollowThrough/demo/static/**
 
 # Claude Code hygiene setup -- kept local, not committed
 /.claude/
