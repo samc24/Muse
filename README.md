@@ -54,3 +54,7 @@ Muse/
 ## Status
 
 Active development on `main`. Long-running solo project -- no release cadence, no external contributors.
+
+## License
+
+**Closed-source. All rights reserved.** Copyright (c) 2026 Sameer Chaturvedi. Public visibility of this repository does not imply any grant of license. See [LICENSE](LICENSE) for terms, or contact [sam.chaturvedi24@gmail.com](mailto:sam.chaturvedi24@gmail.com) for permission requests.
