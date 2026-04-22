@@ -1,0 +1,10 @@
+{
+  "pass_count": 0,
+  "pass_frames": [],
+  "pass_timestamps": [],
+  "detected_frames": 125,
+  "total_frames": 125,
+  "detection_rate": 1.0,
+  "trajectory_distance_px": 2100.8,
+  "duration_sec": 12.5
+}

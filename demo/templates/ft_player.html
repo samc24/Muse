@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --accent: #C8102E;          /* NBA-red for Follow Through */
+    --accent-2: #1D428A;        /* NBA-blue */
+    --accent-hi: #e73958;
+    --panel-bg: #121212;
+    --panel-border: #222;
+    --text-muted: #9a9a9a;
+  }
+  body {margin:0; padding:0; font-family: -apple-system, BlinkMacSystemFont, sans-serif; color:#eee; background:transparent;}
+  .grid {display:grid; grid-template-columns: 1fr 1fr; gap: 18px;}
+  @media (max-width: 720px) { .grid {grid-template-columns: 1fr;} }
+  .panel {background: var(--panel-bg); border: 1px solid var(--panel-border); border-radius: 10px; padding: 14px;}
+  .panel h3 {margin: 0 0 10px 0; font-size: 0.78rem; color: var(--accent); letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700;}
+  video {width:100%; background:#000; border-radius:6px; display:block; aspect-ratio: 16 / 9; object-fit: contain;}
+  .row {display:flex; gap:10px; align-items:center; margin-top:10px; font-size:0.85rem;}
+  .row label {color: var(--text-muted); min-width:60px; font-weight: 500;}
+  .row input[type=range] {flex:1; accent-color: var(--accent);}
+  .controls {margin-top:18px; padding:14px; background: var(--panel-bg); border: 1px solid var(--panel-border); border-radius: 10px;}
+  .btn {padding:9px 18px; background: var(--accent); color:white; border:none; border-radius:6px; cursor:pointer; font-weight:600; font-size: 0.9rem;}
+  .btn:hover {background: var(--accent-hi);}
+  .btn.secondary {background: var(--accent-2); color: #fff;}
+  .btn.secondary:hover {background: #2853a8;}
+  .btn.tertiary {background: #2a2a2a; color: #ddd;}
+  .btn.tertiary:hover {background: #3a3a3a;}
+  .speed-display {color: var(--accent); font-weight:700; min-width:52px; text-align:right; font-variant-numeric: tabular-nums;}
+</style>
+</head>
+<body>
+<div class="grid">
+  <div class="panel">
+    <h3>Shaq</h3>
+    <video id="v1" preload="auto" muted playsinline data-clip="shaq_overlay.mp4"></video>
+  </div>
+  <div class="panel">
+    <h3>Nash</h3>
+    <video id="v2" preload="auto" muted playsinline data-clip="nash_overlay.mp4"></video>
+  </div>
+</div>
+<div class="controls">
+  <div class="row">
+    <label>Speed</label>
+    <input type="range" id="speed" min="0.1" max="2.0" step="0.05" value="0.5">
+    <div class="speed-display" id="speed_val">0.50x</div>
+  </div>
+  <div class="row" style="margin-top:14px; gap:10px;">
+    <button class="btn" id="sync">Sync &amp; Play</button>
+    <button class="btn tertiary" id="pause">Pause</button>
+    <button class="btn tertiary" id="reset">Reset</button>
+  </div>
+</div>
+<script>
+  const VIDEO_PORT = __VIDEO_PORT__;
+
+  function resolveHost() {
+    const h = window.location.hostname;
+    if (h) return h;
+    try { const ph = window.parent.location.hostname; if (ph) return ph; } catch (e) {}
+    return 'localhost';
+  }
+  const url = f => `http://${resolveHost()}:${VIDEO_PORT}/${f}`;
+
+  const v1 = document.getElementById('v1');
+  const v2 = document.getElementById('v2');
+  v1.src = url(v1.dataset.clip);
+  v2.src = url(v2.dataset.clip);
+
+  const speed = document.getElementById('speed');
+  const speedVal = document.getElementById('speed_val');
+
+  function applySpeed() {
+    const s = parseFloat(speed.value);
+    v1.playbackRate = s;
+    v2.playbackRate = s;
+    speedVal.textContent = s.toFixed(2) + 'x';
+  }
+  speed.addEventListener('input', applySpeed);
+
+  document.getElementById('sync').onclick = () => {
+    applySpeed();
+    v1.currentTime = 0; v2.currentTime = 0;
+    Promise.all([v1.play(), v2.play()]).catch(() => {});
+  };
+  document.getElementById('pause').onclick = () => { v1.pause(); v2.pause(); };
+  document.getElementById('reset').onclick = () => {
+    v1.pause(); v2.pause();
+    v1.currentTime = 0; v2.currentTime = 0;
+  };
+  applySpeed();
+</script>
+</body>
+</html>

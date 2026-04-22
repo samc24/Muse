@@ -1,0 +1,26 @@
+{
+  "pass_count": 7,
+  "pass_frames": [
+    6,
+    52,
+    183,
+    206,
+    238,
+    288,
+    368
+  ],
+  "pass_timestamps": [
+    0.2,
+    1.733,
+    6.1,
+    6.867,
+    7.933,
+    9.6,
+    12.267
+  ],
+  "detected_frames": 294,
+  "total_frames": 420,
+  "detection_rate": 0.7,
+  "trajectory_distance_px": 4795.8,
+  "duration_sec": 14.0
+}
