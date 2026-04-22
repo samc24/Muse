@@ -7,7 +7,7 @@ import pickle
 import math
 
 # Globally define our CV2 Information that will be used to add every sample
-# specifies the architecture of the neural network – how the different layers are arranged etc.
+# specifies the architecture of the neural network -- how the different layers are arranged etc.
 protoFile = "pose/mpi/pose_deploy_linevec_faster_4_stages.prototxt"
 # stores the weights of the trained model, trained on MPII dataset
 weightsFile = "pose/mpi/pose_iter_160000.caffemodel"

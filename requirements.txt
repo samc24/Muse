@@ -1,9 +1,9 @@
-# Muse — top-level Python dependencies (Python 3.12)
+# Muse -- top-level Python dependencies (Python 3.12)
 # Portable pinned set. Regenerated 2026-04-21 from the prior conda-frozen file,
 # with absolute wheel paths removed and mediapipe added (missing from the freeze).
 #
 # Note: EyeBall/yolo_detection.py depends on a local PyTorch-YOLOv3 checkout
-# (torch, torchvision, Pillow, matplotlib). Install that separately — see
+# (torch, torchvision, Pillow, matplotlib). Install that separately -- see
 # EyeBall/yolo_detection.md.
 
 imutils==0.5.4

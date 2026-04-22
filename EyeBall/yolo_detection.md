@@ -1,4 +1,4 @@
-# `yolo_detection.py` — Setup and Usage
+# `yolo_detection.py` -- Setup and Usage
 
 Thin wrapper around a PyTorch-YOLOv3 model, used by `track_ball.py` to detect the basketball in each frame.
 
@@ -13,8 +13,8 @@ Thin wrapper around a PyTorch-YOLOv3 model, used by `track_ball.py` to detect th
 
 Tags frames from a video in "real time" and writes them to an output folder.
 
-- `vid` — input video filename
-- `output` — output folder for tagged frames
+- `vid` -- input video filename
+- `output` -- output folder for tagged frames
 - Returns: measured FPS of the video
 
 "Real time" here means: each tag call is timed, and the loop waits that measured interval before pulling the next frame.
@@ -23,9 +23,9 @@ Tags frames from a video in "real time" and writes them to an output folder.
 
 Reconstructs a playable video from a folder of tagged frames.
 
-- `outputs` — folder of tagged frames produced by `save_tagged_frames`
-- `video_output` — filename of the output video
-- `fps` — target frames-per-second
+- `outputs` -- folder of tagged frames produced by `save_tagged_frames`
+- `video_output` -- filename of the output video
+- `fps` -- target frames-per-second
 
 ## Example
 

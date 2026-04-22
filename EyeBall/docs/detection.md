@@ -1,4 +1,4 @@
-# Ball Detection — Design Rationale
+# Ball Detection -- Design Rationale
 
 EyeBall's detector is the front end of the entire play-detection pipeline: every downstream signal (trajectory, passes, possession boundaries, shot attempts) derives from it. Detection quality sets the ceiling for everything that follows.
 
@@ -17,28 +17,28 @@ These constraints rule out the simpler methods that might otherwise be fine.
 
 ## Approaches evaluated
 
-### Template matching — rejected
+### Template matching -- rejected
 
 Cross-correlating against a fixed template image of the ball. Fails because the ball's appearance varies too much frame-to-frame and video-to-video (motion blur, occlusion by hand, lighting, spin). Can't scale across unseen games.
 
-### Hough Circle Transform — rejected
+### Hough Circle Transform -- rejected
 
-Detecting circles directly via the Hough transform. Fails under occlusion (the ball isn't a full circle when gripped) and over-fires on any circle-shaped region in the scene — shoulder curves, face outlines, logos on the court.
+Detecting circles directly via the Hough transform. Fails under occlusion (the ball isn't a full circle when gripped) and over-fires on any circle-shaped region in the scene -- shoulder curves, face outlines, logos on the court.
 
-### HSV filter + contour filtering + circularity + area — partially works
+### HSV filter + contour filtering + circularity + area -- partially works
 
 A multi-stage classical pipeline: Gaussian blur → HSV thresholding → binary image → morphological open/close → contour detection → filter contours by approximate circularity and by area band (known from camera height and zoom) → take the most circular remaining contour.
 
-Works well when the ball is visible and the court contrasts cleanly with the ball hue. Fails on same-colour courts, under occlusion, and in motion blur. It's also brittle to changes in lighting and broadcast style — every new dataset requires re-tuning thresholds.
+Works well when the ball is visible and the court contrasts cleanly with the ball hue. Fails on same-colour courts, under occlusion, and in motion blur. It's also brittle to changes in lighting and broadcast style -- every new dataset requires re-tuning thresholds.
 
-### YOLOv3 detector — current choice
+### YOLOv3 detector -- current choice
 
 A learned single-shot detector (`yolo_detection.py` wraps PyTorch-YOLOv3) trained to emit ball bounding boxes per frame. This is the current primary detector.
 
 Why it wins:
 
-- Robust to the colour-confusion failure mode — the detector learns the ball's full-appearance distribution, not just its hue.
-- Handles partial occlusion gracefully — the learned representation doesn't require a full circle.
+- Robust to the colour-confusion failure mode -- the detector learns the ball's full-appearance distribution, not just its hue.
+- Handles partial occlusion gracefully -- the learned representation doesn't require a full circle.
 - Generalises across datasets without per-video threshold tuning.
 - Throughput is acceptable on commodity GPUs for the broadcast application.
 
@@ -50,16 +50,16 @@ Cost: requires a local checkout of the upstream YOLOv3 repo and trained weights 
 - **Rejecting ball-coloured distractors.** The filter's distance-gated prediction handles this too.
 - **Event detection (passes, possessions).** Downstream of the filtered trajectory.
 
-Keeping these concerns separate is a deliberate design choice — it lets the detector stay stateless and frame-local, and makes each stage testable in isolation.
+Keeping these concerns separate is a deliberate design choice -- it lets the detector stay stateless and frame-local, and makes each stage testable in isolation.
 
 ## Known gaps
 
 - The detector currently runs on CPU / generic GPU; no optimisation for edge-class devices (Jetson, Movidius, etc.). Only relevant if the broadcast-application path gets productionised.
-- No evaluation harness for the detector in isolation — quality is only measured end-to-end through pass-detection accuracy.
+- No evaluation harness for the detector in isolation -- quality is only measured end-to-end through pass-detection accuracy.
 - Model weights are not committed to Muse; the upstream YOLOv3 setup has to be followed manually.
 
 ## Roadmap
 
 - Add an isolated detector evaluation: precision/recall per frame against a labelled clip set, so detector changes can be measured without the full pipeline.
-- Explore fine-tuning on basketball-specific data once enough labels exist — the generic YOLOv3 weights are fine but leave accuracy on the table.
-- Decide whether to consolidate on a newer detector family (YOLOv8/v11) or stick with v3 — only worth the migration if the classification or latency benefit is concrete.
+- Explore fine-tuning on basketball-specific data once enough labels exist -- the generic YOLOv3 weights are fine but leave accuracy on the table.
+- Decide whether to consolidate on a newer detector family (YOLOv8/v11) or stick with v3 -- only worth the migration if the classification or latency benefit is concrete.

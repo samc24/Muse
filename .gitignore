@@ -29,11 +29,12 @@ logs/
 *.zip
 *.fig
 
-# Whitelist subproject assets used by READMEs
+# Whitelist root and subproject images/assets used by READMEs
+!images/**
 !EyeBall/assets/**
 !FollowThrough/assets/**
 
-# Claude Code hygiene setup — kept local, not committed
+# Claude Code hygiene setup -- kept local, not committed
 /.claude/
 /CLAUDE.md
 /WORK_NOTES.md
