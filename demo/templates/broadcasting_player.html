@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --accent: #E87722;
+    --panel-bg: #121212;
+    --panel-border: #222;
+    --text-muted: #9a9a9a;
+  }
+  body {margin:0; padding:0; font-family: -apple-system, BlinkMacSystemFont, sans-serif; color:#eee; background:transparent;}
+  .panel {background: var(--panel-bg); border: 1px solid var(--panel-border); border-radius: 10px; padding: 14px; margin-bottom: 14px;}
+  .panel h3 {margin: 0 0 10px 0; font-size: 0.78rem; color: var(--accent); letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700;}
+  .panel .caption {margin: 8px 0 0 0; font-size: 0.85rem; color: var(--text-muted);}
+  video {width:100%; background:#000; border-radius:6px; display:block; object-fit: contain;}
+  .arrow {text-align: center; color: var(--accent); font-size: 1.5rem; font-weight: 800; letter-spacing: 0.25em; margin: 4px 0 8px 0;}
+</style>
+</head>
+<body>
+
+<div class="panel">
+  <h3>Panoramic source with crop overlay</h3>
+  <video id="v_src" preload="auto" muted playsinline autoplay loop data-clip="broadcasting_source.mp4"></video>
+  <p class="caption">Ultra-wide 5120x1440 single-camera feed (shown scaled down). The green rectangle is the 16:9 crop window the panning algorithm is choosing right now; it follows motion in real time.</p>
+</div>
+
+<div class="arrow">&#9662; &nbsp; crop + resize &nbsp; &#9662;</div>
+
+<div class="panel">
+  <h3>Auto-panned broadcast output</h3>
+  <video id="v_out" preload="auto" muted playsinline autoplay loop data-clip="broadcasting_output.mp4"></video>
+  <p class="caption">1280x720 broadcast output, 2.8x zoom from the panorama. Motion detection inside the court ROI drives a smoothed pan target; the crop follows the action with no camera operator.</p>
+</div>
+
+<script>
+  const VIDEO_PORT = __VIDEO_PORT__;
+
+  function resolveHost() {
+    const h = window.location.hostname;
+    if (h) return h;
+    try { const ph = window.parent.location.hostname; if (ph) return ph; } catch (e) {}
+    return 'localhost';
+  }
+  const url = f => `http://${resolveHost()}:${VIDEO_PORT}/${f}`;
+
+  for (const id of ['v_src', 'v_out']) {
+    const el = document.getElementById(id);
+    el.src = url(el.dataset.clip);
+  }
+</script>
+</body>
+</html>
