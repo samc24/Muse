@@ -267,14 +267,17 @@ def render_eyeball() -> None:
         unsafe_allow_html=True,
     )
 
-    jordan_tab, houston_tab = st.tabs([
+    jordan_tab, houston_tab, broadcasting_tab = st.tabs([
         "Jordan -- Drive to the Rim",
         "Spurs at Houston -- Half-Court",
+        "Broadcasting -- Virtual Panning",
     ])
     with jordan_tab:
         _render_eb_clip("jordan", "Jordan -- Drive to the Rim")
     with houston_tab:
         _render_eb_clip("houston", "Spurs at Houston -- Half-Court")
+    with broadcasting_tab:
+        _render_broadcasting()
 
 
 def _render_eb_clip(name: str, label: str) -> None:
@@ -328,6 +331,58 @@ def _render_eb_clip(name: str, label: str) -> None:
     if events["pass_timestamps"]:
         times = ", ".join(f"{t:.2f}s" for t in events["pass_timestamps"])
         st.markdown(f"**Pass timeline:** {times}")
+
+
+def _render_broadcasting() -> None:
+    """The virtual-panning broadcasting application, shown as a before/after pair.
+
+    No live analysis here -- the videos are historical output of the panning
+    pipeline, included to illustrate the downstream application of EyeBall's
+    tracking primitives (motion-detection + playground ROI + smoothed pan).
+    """
+    player_html = load_template("broadcasting_player.html").replace(
+        "__VIDEO_PORT__", str(VIDEO_PORT),
+    )
+    components.html(player_html, height=780, scrolling=False)
+
+    st.markdown(
+        """
+        <div class="eb-stats">
+          <div class="eb-stat-card">
+            <div class="eb-stat-label">Input</div>
+            <div class="eb-stat-value">5120<span class="eb-stat-suffix"> &times; 1440</span></div>
+          </div>
+          <div class="eb-stat-card">
+            <div class="eb-stat-label">Output</div>
+            <div class="eb-stat-value">1280<span class="eb-stat-suffix"> &times; 720</span></div>
+          </div>
+          <div class="eb-stat-card">
+            <div class="eb-stat-label">Zoom Factor</div>
+            <div class="eb-stat-value">2.8<span class="eb-stat-suffix">x</span></div>
+          </div>
+          <div class="eb-stat-card">
+            <div class="eb-stat-label">Cameramen Required</div>
+            <div class="eb-stat-value">0</div>
+          </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown("### How the pipeline works")
+    st.markdown(
+        """
+Single commodity 180-degree camera records the court. The backend runs at ~25 fps:
+
+1. **Playground ROI** is set at installation time -- a polygon around the court so motion outside (benches, coaches, public) can't pull the pan off the action.
+2. **Frame differencing** against a median-frame background surfaces moving pixels each frame, restricted to the ROI.
+3. **Area-weighted centre-of-motion** yields a target pan centre -- the mass of player motion, not any single tracked object.
+4. **Thresholded smoothing** only moves the virtual camera when the target shifts by more than a noise floor; speed is proportional to displacement, with a minimum so micro-jitter doesn't shimmer.
+5. **Async frame capture** keeps the loop at ~24 fps on commodity hardware -- real-time in practice.
+
+Per EyeBall's roadmap, the ball-track primitive (Jordan / Houston tabs) becomes the *secondary* signal into this pipeline: centre-of-motion for the broad pan, ball trajectory to recover when the ball exits the hot area.
+        """
+    )
 
 
 # -- Layout -----------------------------------------------------------------

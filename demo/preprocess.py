@@ -9,10 +9,13 @@ Run from the demo directory:
 
 from __future__ import annotations
 
+import os
 import sys
 from pathlib import Path
 
-from pipeline import detect_eb, preprocess_ft, transcode_eb
+import numpy as np
+
+from pipeline import detect_eb, preprocess_ft, render_broadcasting, transcode_eb
 
 DEMO = Path(__file__).resolve().parent
 REPO = DEMO.parent
@@ -53,6 +56,30 @@ EB_DETECT_CLIPS: list[tuple[str, str, int | None, dict]] = [
     ),
 ]
 
+# -- Broadcasting -----------------------------------------------------------
+#
+# The panoramic source isn't checked into the Muse repo (it's a ~280 MB capture
+# that lives alongside the historic EyeBall-v2 iteration). Override with the
+# MUSE_BROADCASTING_SOURCE env var if your copy is elsewhere; if the source
+# isn't present we silently skip this stage so the other subsystems still run.
+
+BROADCASTING_SOURCE = Path(
+    os.environ.get(
+        "MUSE_BROADCASTING_SOURCE",
+        str(REPO.parent / "EyeBall-v2" / "videos_3_23" / "5.avi"),
+    )
+)
+
+# Court ROI polygon in source-pixel coordinates. Motion outside this polygon
+# is excluded so coaches, benches, and public can't pull the virtual pan off
+# the action.
+BROADCASTING_COURT_POLY = np.array([
+    [270, 940], [1380, 1440], [3500, 1440], [4490, 985],
+    [3475, 380], [3000, 300], [2385, 255], [1810, 280], [1310, 345],
+], dtype=np.int32)
+
+BROADCASTING_TRIM_SEC = 18
+
 
 def main() -> None:
     DATA.mkdir(parents=True, exist_ok=True)
@@ -72,6 +99,18 @@ def main() -> None:
         detect_eb(
             EB_SOURCE_DIR, DATA, STATIC, REPO,
             name, filename, tuning, trim_sec=trim,
+        )
+
+    print("\nBroadcasting:")
+    if BROADCASTING_SOURCE.exists():
+        render_broadcasting(
+            BROADCASTING_SOURCE, STATIC, BROADCASTING_COURT_POLY,
+            trim_sec=BROADCASTING_TRIM_SEC,
+        )
+    else:
+        print(
+            f"  Skipping -- source not found at {BROADCASTING_SOURCE}. "
+            "Set MUSE_BROADCASTING_SOURCE if your copy is elsewhere."
         )
 
     print(

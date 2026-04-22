@@ -3,7 +3,7 @@
 A single Streamlit app showcasing both Muse subsystems side-by-side:
 
 - **Follow Through** -- shot-form pose comparison (Shaq vs. Nash), with similarity score + coaching advice + per-joint deviation chart.
-- **EyeBall** -- ball tracking + pass detection on basketball video, with trajectory plot and live stats.
+- **EyeBall** -- ball tracking + pass detection on basketball video, with trajectory plot and live stats. Plus a "Broadcasting" sub-tab showing virtual-panning output over a panoramic source.
 
 Dark theme, NBA-style red/blue accents on Follow Through, basketball-orange accents on EyeBall.
 
@@ -36,6 +36,14 @@ python3 preprocess.py
 
 This takes ~30-60 s depending on clip lengths. Source footage comes from `FollowThrough/2kvids/` (pose clips) and `EyeBall/videos/` (ball-tracking clips).
 
+The Broadcasting sub-tab additionally needs a panoramic source clip that isn't checked into the repo (~280 MB). By default `preprocess.py` looks at `../../EyeBall-v2/videos_3_23/5.avi` relative to the repo. Override with an env var:
+
+```bash
+MUSE_BROADCASTING_SOURCE=/path/to/panoramic.avi python3 preprocess.py
+```
+
+If the source is missing, preprocess prints a skip message and the other subsystems still run.
+
 ## Architecture
 
 ```
@@ -51,8 +59,9 @@ demo/
 |-- .streamlit/
 |   `-- config.toml     # dark theme + static serving for PNGs
 |-- templates/
-|   |-- ft_player.html  # Follow Through dual-video player
-|   `-- eb_player.html  # EyeBall single-video player
+|   |-- ft_player.html              # Follow Through dual-video player
+|   |-- eb_player.html              # EyeBall single-video player
+|   `-- broadcasting_player.html    # panoramic source + panned output pair
 |-- static/             # served by the sidecar (MP4s) + Streamlit (PNGs)
 |   |-- *.mp4           # overlay videos
 |   `-- *.png           # logos
@@ -103,5 +112,6 @@ Make sure both the laptop and phone are on the same Wi-Fi. The launcher prints a
 
 - **Follow Through** -- Pose extraction + Savitzky-Golay smoothing + normalised keypoint distance yields a quantified similarity score. Shaq vs. Nash is a visually obvious contrast; the pipeline says the shooting wrist and guide-hand elbow deviate the most, which matches the visible form difference. The coaching advice is generated from the top-N most-deviated joints with directional heuristics.
 - **EyeBall** -- Classical CV (HSV + contour + circularity) + Kalman tracking produce a per-frame (x, y). Two-pass smoothing (outlier rejection + Savitzky-Golay) cleans up false detections. Angle-pivot pass detection on the smoothed trace counts direction changes that look like passes.
+- **Broadcasting** -- Motion detection inside the court ROI drives a virtual-pan target (midpoint of the active-column envelope, Savitzky-Golay smoothed). The source view is shown with a green rectangle overlay so the pan decision is legible; the crop is resampled to a 1280x720 broadcast-style feed.
 
 Both pipelines run entirely on the laptop -- no cloud, no server dependency.

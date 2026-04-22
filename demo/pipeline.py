@@ -47,6 +47,21 @@ _TRAIL_LENGTH = 60
 _HUD_ORANGE_BGR = (34, 119, 232)
 _H264_FOURCC = cv2.VideoWriter_fourcc(*"avc1")
 
+# -- Broadcasting virtual-pan tuning ----------------------------------------
+
+_PAN_SMOOTH_WINDOW = 31                   # Savitzky-Golay window on the pan target
+_PAN_SMOOTH_POLYORDER = 2
+_PAN_ACTIVE_COLUMN_FRAC = 0.15            # column counts as "active" when density >= frac of per-frame peak
+_PAN_MOTION_THRESHOLD = 18                # binary-threshold cutoff on frame-diff blur
+_PAN_BG_SAMPLE_COUNT = 20                 # frames used to build the median background
+_PAN_OUTPUT_W = 1280                      # broadcast-output resolution
+_PAN_OUTPUT_H = 720
+_PAN_SOURCE_DISPLAY_W = 2048              # scaled-down panoramic for display
+_PAN_SOURCE_DISPLAY_H = 576
+_PAN_ZOOM_RATIO = 2.8                     # 1/zoom of panorama width per crop
+_PAN_OVERLAY_COLOR_BGR = (0, 255, 127)    # green crop-window rectangle on the source
+_PAN_OVERLAY_THICKNESS = 10
+
 
 # ===========================================================================
 # Follow Through -- MediaPipe pose pipeline
@@ -502,3 +517,163 @@ def _write_eb_artifacts(
 def _require_file(path: Path) -> None:
     if not path.exists():
         raise FileNotFoundError(f"Missing source file: {path}")
+
+
+# ===========================================================================
+# Broadcasting -- virtual-pan visualisation over a panoramic source
+# ===========================================================================
+
+def render_broadcasting(
+    source_video: Path,
+    static_dir: Path,
+    court_polygon: np.ndarray,
+    trim_sec: int | None = None,
+) -> None:
+    """Render a broadcast-style 16:9 pan output and an annotated source clip.
+
+    Pass 1: motion detection inside the court ROI. For each frame, pick the pan
+    target as the midpoint of the "active column" envelope (leftmost and
+    rightmost columns whose motion density >= a fraction of the per-frame
+    peak). Smooth the target trace with Savitzky-Golay so the virtual camera
+    glides rather than jerks.
+
+    Pass 2: render two outputs from the same source:
+      - broadcasting_source.mp4  -- scaled-down panorama with a green rectangle
+        showing the crop window per frame (so the pan decision is legible).
+      - broadcasting_output.mp4  -- broadcast-style 16:9 crop, resampled to
+        1280x720.
+
+    Both share frame rate + duration so they can be played back in sync.
+    """
+    _require_file(source_video)
+
+    cap = cv2.VideoCapture(str(source_video))
+    fps = cap.get(cv2.CAP_PROP_FPS) or 25.0
+    total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    if trim_sec is not None:
+        total_frames = min(total_frames, int(fps * trim_sec))
+    src_w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+    src_h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+
+    roi_mask = np.zeros((src_h, src_w), dtype=np.uint8)
+    cv2.fillPoly(roi_mask, [court_polygon], 255)
+
+    bg_gray = _build_background(cap, total_frames, _PAN_BG_SAMPLE_COUNT)
+    targets = _compute_pan_targets(cap, bg_gray, roi_mask, total_frames, src_w)
+    crop_w, crop_h, crop_y = _pan_crop_geometry(src_w, src_h)
+
+    cap.release()
+    cap = cv2.VideoCapture(str(source_video))
+    out_path = static_dir / "broadcasting_output.mp4"
+    src_path = static_dir / "broadcasting_source.mp4"
+    out_path.unlink(missing_ok=True)
+    src_path.unlink(missing_ok=True)
+
+    output_writer = cv2.VideoWriter(str(out_path), _H264_FOURCC, fps, (_PAN_OUTPUT_W, _PAN_OUTPUT_H))
+    source_writer = cv2.VideoWriter(
+        str(src_path), _H264_FOURCC, fps, (_PAN_SOURCE_DISPLAY_W, _PAN_SOURCE_DISPLAY_H),
+    )
+    if not output_writer.isOpened() or not source_writer.isOpened():
+        raise RuntimeError(f"Failed to open broadcasting video writers under {static_dir}")
+
+    for frame_idx in range(total_frames):
+        ok, frame = cap.read()
+        if not ok:
+            break
+        target_x = int(targets[frame_idx])
+        x0 = max(0, min(src_w - crop_w, target_x - crop_w // 2))
+
+        crop = frame[crop_y:crop_y + crop_h, x0:x0 + crop_w]
+        output_writer.write(
+            cv2.resize(crop, (_PAN_OUTPUT_W, _PAN_OUTPUT_H), interpolation=cv2.INTER_AREA),
+        )
+
+        annotated = frame.copy()
+        cv2.rectangle(
+            annotated, (x0, crop_y), (x0 + crop_w, crop_y + crop_h),
+            _PAN_OVERLAY_COLOR_BGR, _PAN_OVERLAY_THICKNESS,
+        )
+        cv2.line(
+            annotated, (target_x, crop_y), (target_x, crop_y + crop_h),
+            _PAN_OVERLAY_COLOR_BGR, 3,
+        )
+        source_writer.write(
+            cv2.resize(
+                annotated, (_PAN_SOURCE_DISPLAY_W, _PAN_SOURCE_DISPLAY_H),
+                interpolation=cv2.INTER_AREA,
+            ),
+        )
+
+    cap.release()
+    output_writer.release()
+    source_writer.release()
+
+    print(
+        f"  Broadcasting: {total_frames} frames @ {fps:.1f} fps, "
+        f"zoom ~{src_w / crop_w:.1f}x, "
+        f"pan range x={int(targets.min())}-{int(targets.max())} of {src_w}"
+    )
+
+
+def _build_background(
+    cap: cv2.VideoCapture, total_frames: int, sample_count: int,
+) -> np.ndarray:
+    """Median-average sampled frames into a greyscale background model."""
+    sample_idx = np.linspace(0, max(0, total_frames - 1), sample_count).astype(int)
+    samples: list[np.ndarray] = []
+    for idx in sample_idx:
+        cap.set(cv2.CAP_PROP_POS_FRAMES, int(idx))
+        ok, frame = cap.read()
+        if ok:
+            samples.append(frame)
+    if not samples:
+        raise RuntimeError("Could not sample any frames for background model")
+    bg = np.median(samples, axis=0).astype(np.uint8)
+    return cv2.cvtColor(bg, cv2.COLOR_BGR2GRAY)
+
+
+def _compute_pan_targets(
+    cap: cv2.VideoCapture,
+    bg_gray: np.ndarray,
+    roi_mask: np.ndarray,
+    total_frames: int,
+    src_w: int,
+) -> np.ndarray:
+    """Per-frame pan target x (midpoint of the active-column envelope), Savgol-smoothed."""
+    cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
+    raw_targets: list[float] = []
+    for _ in range(total_frames):
+        ok, frame = cap.read()
+        if not ok:
+            break
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        diff = cv2.absdiff(bg_gray, gray)
+        blurred = cv2.GaussianBlur(diff, (15, 15), 0)
+        _, thresh = cv2.threshold(blurred, _PAN_MOTION_THRESHOLD, 255, cv2.THRESH_BINARY)
+        thresh = cv2.dilate(thresh, None, iterations=3)
+        thresh = cv2.bitwise_and(thresh, roi_mask)
+
+        col_density = np.sum(thresh, axis=0).astype(float)
+        peak = col_density.max()
+        if peak > 0:
+            active = np.where(col_density >= peak * _PAN_ACTIVE_COLUMN_FRAC)[0]
+            if len(active) > 0:
+                raw_targets.append(float((active.min() + active.max()) / 2.0))
+                continue
+        raw_targets.append(raw_targets[-1] if raw_targets else src_w / 2.0)
+
+    targets = np.array(raw_targets, dtype=float)
+    if len(targets) >= _PAN_SMOOTH_WINDOW:
+        targets = savgol_filter(targets, _PAN_SMOOTH_WINDOW, _PAN_SMOOTH_POLYORDER)
+    return targets
+
+
+def _pan_crop_geometry(src_w: int, src_h: int) -> tuple[int, int, int]:
+    """Return the 16:9 crop window geometry (crop_w, crop_h, y-offset) inside the source frame."""
+    crop_w = int(src_w / _PAN_ZOOM_RATIO)
+    crop_h = int(crop_w * _PAN_OUTPUT_H / _PAN_OUTPUT_W)
+    if crop_h > src_h:
+        crop_h = src_h
+        crop_w = int(crop_h * _PAN_OUTPUT_W / _PAN_OUTPUT_H)
+    crop_y = (src_h - crop_h) // 2
+    return crop_w, crop_h, crop_y
