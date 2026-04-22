@@ -1,0 +1,27 @@
+{
+  "source": "FollowThrough/2kvids/shaq1.mp4",
+  "fps": 29.97002997002997,
+  "frame_count": 78,
+  "width": 1280,
+  "height": 720,
+  "joints": [
+    "HEAD",
+    "L_SHOULDER",
+    "R_SHOULDER",
+    "L_ELBOW",
+    "R_ELBOW",
+    "L_WRIST",
+    "R_WRIST",
+    "L_HIP",
+    "R_HIP",
+    "L_KNEE",
+    "R_KNEE",
+    "L_ANKLE",
+    "R_ANKLE",
+    "L_HEEL",
+    "R_HEEL",
+    "L_FOOT_INDEX",
+    "R_FOOT_INDEX",
+    "NECK"
+  ]
+}

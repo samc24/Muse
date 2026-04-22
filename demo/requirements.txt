@@ -1,0 +1,10 @@
+# Demo-specific dependencies. Install into the same env that runs Muse (Python 3.12).
+#
+#   pip install -r requirements.txt
+#
+# Depends on Muse's top-level requirements.txt already being installed
+# (opencv, mediapipe, numpy, scipy, pandas).
+
+streamlit~=1.47
+matplotlib~=3.9
+pytest~=8.0

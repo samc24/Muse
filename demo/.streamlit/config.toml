@@ -1,0 +1,15 @@
+[server]
+enableStaticServing = true
+enableCORS = false
+enableXsrfProtection = false
+
+[browser]
+gatherUsageStats = false
+
+[theme]
+base = "dark"
+primaryColor = "#E87722"
+backgroundColor = "#0e0e10"
+secondaryBackgroundColor = "#1a1a1c"
+textColor = "#f0f0f0"
+font = "sans-serif"
