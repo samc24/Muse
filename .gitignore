@@ -36,6 +36,9 @@ logs/
 # Demo artifacts -- small, committed for zero-friction demo
 !demo/data/**
 !demo/static/**
+# Portfolio site public assets + source (incl. icon.png / opengraph-image.png) -- shipped to Vercel
+!site/public/**
+!site/src/**
 
 # Claude Code hygiene setup -- kept local, not committed
 /.claude/
