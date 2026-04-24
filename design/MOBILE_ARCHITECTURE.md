@@ -202,10 +202,23 @@ The margin is narrow. A remains the runner-up. But under the "optimise for AI-as
 - **Seed data:** the 15 hardcoded pros from `Startup.java` become `mobile/ios/FollowThrough/Resources/pros_seed.json`, loaded on first launch.
 - **Analysis port:** `demo/analysis.py` -> `mobile/ios/FollowThrough/Analysis.swift`. Ten pytest tests -> ten XCTest tests loading fixtures from `mobile/ios/FollowThroughTests/fixtures/*.json`. Float tolerance pinned. The shared-spec doc does not exist yet -- the contract lives in the Swift code + tests.
 - **Pose pipeline:** MediaPipe Tasks iOS SDK consumed directly via Swift Package Manager.
-- **Data layer:** SwiftData (or GRDB if SwiftData proves limiting for the history queries you actually need).
-- **Backend:** none. Bundled templates only.
+- **Data layer:** SwiftData with CloudKit sync from day 1. Cross-device shot history (iPhone / iPad / watch) is essentially free; avoids ever building a custom sync layer. Migrate to GRDB if a SwiftData wall ever appears (rare for this data shape).
+- **Backend:** none. Bundled templates + CloudKit (private container) only.
 - **CI:** single iOS job (`macos-latest`, Xcode). Python jobs untouched.
 - **Server retirement:** `FTTrial2.0/` archived; deletion deferred to v2 (after Android lands and `WORK_NOTES.md` is updated).
+
+#### v1 stack (locked 2026-04-24)
+
+- **iOS min version:** 17.4+ (SwiftData stability, SwiftUI 5 + Observation, Swift Charts, watchOS 10 baseline ready for v1.5). ~75% install base accepted; trades reach for materially better DX and SwiftData reliability.
+- **UI:** SwiftUI + Observation (`@Observable` / `@Bindable`).
+- **Camera + recording:** `AVCaptureSession` + `AVCaptureMovieFileOutput`. Landscape-only for shooting form capture.
+- **Video playback (Compare screen):** two `AVPlayer`s sharing a clock via `CADisplayLink` for sub-frame sync.
+- **Pose extraction:** MediaPipe Tasks iOS via Swift Package Manager. 18-joint config; Savitzky-Golay smoothing parameters lifted from `FollowThrough/source/SkeletonMaker.py`.
+- **Persistence:** SwiftData + CloudKit (private container).
+- **Charts:** Swift Charts (per-joint deviation bar chart, wrist-trajectory line chart).
+- **Async:** Swift Concurrency (`async/await`, `actor`, `AsyncSequence`).
+- **Tests:** XCTest with shared JSON fixtures sourced from `demo/analysis.py`.
+- **Distribution:** TestFlight for solo dogfood + invite-only beta, then App Store.
 
 ### v1.5 (watchOS companion)
 
@@ -283,12 +296,18 @@ If this fails (unlikely for a first-party SDK), v1 falls back to record-then-ana
 - **MediaPipe Tasks Android perf check** on Pixel-class device. Same shape as v1's iOS check.
 - **SQLDelight schema parity** with iOS data layer.
 
-## Open questions post-decision (not this doc's scope)
+## Open questions
 
-1. iOS min version: 17 (SwiftUI 5 maturity, watchOS 10) or 16 (broader install base)? **v1 gate.**
-2. SwiftData vs GRDB for v1 history queries. SwiftData if queries stay simple; GRDB if you want raw SQL and known performance characteristics.
-3. Fixture authoring for v1 XCTests: capture outputs from `demo/analysis.py` with a one-time script, or hand-write synthetic keypoint sequences for edge cases?
-4. Watch v1.5 timing: bundled with v1.0 store release as a "two-app launch", or shipped as v1.5 a few weeks after?
-5. `SHARED_SPEC.md` format (deferred to v2): prose + YAML function signatures, or typed markdown with JSON Schema fragments for inputs / outputs? Decision happens when Android port begins.
-6. Android min SDK (deferred to v2): API 26 (8.0) for CameraX + modern Compose baseline, or API 29 (10) for simpler permission model?
-7. Shot overlay export (v3+): compute overlay at record time and cache video with baked-in overlay, or compute per-frame at playback and export via video-composition? Storage-vs-compute tradeoff.
+### Resolved 2026-04-24
+
+- ~~iOS min version~~ **17.4+** (SwiftUI 5 + Observation, SwiftData stability, watchOS 10 ready for v1.5).
+- ~~SwiftData vs GRDB~~ **SwiftData with CloudKit sync from day 1.** Migrate to GRDB only if SwiftData hits a wall.
+- ~~Lift from legacy Java app vs rewrite~~ **Lift only feature set + UX flow** (Compare interaction model, ProList search behaviour, 15-pro seed metadata). All Swift code written clean.
+
+### Open
+
+1. Fixture authoring for v1 XCTests: capture outputs from `demo/analysis.py` with a one-time script, or hand-write synthetic keypoint sequences for edge cases? Likely both -- capture for the canonical happy paths, hand-write for edges.
+2. Watch v1.5 timing: bundled with v1.0 store release as a "two-app launch", or shipped as v1.5 a few weeks after? Affects v1 scoping pressure.
+3. `SHARED_SPEC.md` format (deferred to v2): prose + YAML function signatures, or typed markdown with JSON Schema fragments for inputs / outputs?
+4. Android min SDK (deferred to v2): API 26 (8.0) for CameraX + modern Compose baseline, or API 29 (10) for simpler permission model?
+5. Shot overlay export (v3+): compute overlay at record time and cache video with baked-in overlay, or compute per-frame at playback and export via video-composition? Storage-vs-compute tradeoff.
