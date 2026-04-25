@@ -4,7 +4,8 @@ Architecture decisions and design docs for the Muse monorepo. One file per decis
 
 ## Current decisions
 
-- [MOBILE_ARCHITECTURE.md](MOBILE_ARCHITECTURE.md) -- Follow Through mobile rewrite. Native twins (Kotlin Compose + SwiftUI, no KMP). Approved 2026-04-24.
+- [MOBILE_ARCHITECTURE.md](MOBILE_ARCHITECTURE.md) -- Follow Through mobile rewrite. Native twins (Kotlin Compose + SwiftUI, no KMP). Approved 2026-04-24. Phasing: v1 iOS / v1.5 watchOS / v2 Android.
+- [FT_IOS_V1_PLAN.md](FT_IOS_V1_PLAN.md) -- Concrete v1 implementation plan: bootstrap, screen inventory, 6-phase order, commit + test strategy. Draft 2026-04-25, working on `ft-ios`.
 
 ## What lives here vs elsewhere
 
