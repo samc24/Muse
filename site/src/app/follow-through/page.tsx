@@ -85,6 +85,17 @@ export default function FollowThroughPage() {
         </div>
       </section>
 
+      {/* Demo video */}
+      <section className="mx-auto max-w-6xl px-6 py-16 border-t hairline">
+        <p className="overline">Demo</p>
+        <h2 className="mt-4 text-3xl sm:text-4xl font-semibold tracking-tight">
+          See it in motion.
+        </h2>
+        <div className="mt-10 max-w-4xl">
+          <VideoClip src="/clips/ft_demo.mp4" />
+        </div>
+      </section>
+
       {/* How it works */}
       <section className="mx-auto max-w-6xl px-6 py-16 border-t hairline">
         <p className="overline">Pipeline</p>
