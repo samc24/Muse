@@ -39,6 +39,20 @@ logs/
 # Portfolio site public assets + source (incl. icon.png / opengraph-image.png) -- shipped to Vercel
 !site/public/**
 !site/src/**
+# iOS app assets + bundled videos (Assets.xcassets, pro shot clips, etc.)
+!mobile/ios/**
+
+# Xcode / iOS
+mobile/ios/**/xcuserdata/
+mobile/ios/**/*.xcuserstate
+mobile/ios/**/DerivedData/
+mobile/ios/**/build/
+mobile/ios/**/.swiftpm/
+mobile/ios/**/*.moved-aside
+mobile/ios/**/*.hmap
+# Carthage / CocoaPods (not used yet, but safe to pre-ignore)
+mobile/ios/**/Carthage/
+mobile/ios/**/Pods/
 
 # Claude Code hygiene setup -- kept local, not committed
 /.claude/

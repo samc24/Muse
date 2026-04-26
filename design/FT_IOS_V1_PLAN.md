@@ -114,8 +114,8 @@ DerivedData/
 ### Bundle ID + app name
 
 - App name: `Follow Through`
-- Bundle ID: `com.muse.followthrough`
-- iCloud container: `iCloud.com.muse.followthrough`
+- Bundle ID: `com.sameerc.followthrough`
+- iCloud container: `iCloud.com.sameerc.followthrough`
 
 ## Screen inventory
 
@@ -141,8 +141,8 @@ The early phases are restructured into three rapid sprints, each ending with som
 Goal: app builds, signs, deploys to Sameer's iPhone, shows a SwiftUI "Hello" screen.
 
 - Xcode project scaffold per directory layout above.
-- Bundle ID `com.muse.followthrough`, signing configured for Sameer's Apple Developer team.
-- iCloud capability + container `iCloud.com.muse.followthrough` provisioned (CloudKit dashboard).
+- Bundle ID `com.sameerc.followthrough`, signing configured for Sameer's Apple Developer team.
+- iCloud capability + container `iCloud.com.sameerc.followthrough` provisioned (CloudKit dashboard).
 - SPM dependency: `MediaPipeTasksVision` added (not used yet -- just verify it resolves).
 - Single SwiftUI screen: app name, version, build number, "MediaPipe loaded: yes/no" status.
 - Build to simulator -> works. Build to iPhone 17 over USB -> works. Trust developer profile on device.
