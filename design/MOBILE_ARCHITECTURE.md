@@ -201,7 +201,7 @@ The margin is narrow. A remains the runner-up. But under the "optimise for AI-as
 - **Repo layout starts:** `Muse/mobile/ios/` (Xcode project, single iOS target). `Muse/mobile/android/` and `Muse/mobile/shared/` do not yet exist.
 - **Seed data:** the 15 hardcoded pros from `Startup.java` become `mobile/ios/FollowThrough/Resources/pros_seed.json`, loaded on first launch.
 - **Analysis port:** `demo/analysis.py` -> `mobile/ios/FollowThrough/Analysis.swift`. Ten pytest tests -> ten XCTest tests loading fixtures from `mobile/ios/FollowThroughTests/fixtures/*.json`. Float tolerance pinned. The shared-spec doc does not exist yet -- the contract lives in the Swift code + tests.
-- **Pose pipeline:** MediaPipe Tasks iOS SDK consumed directly via Swift Package Manager.
+- **Pose pipeline:** MediaPipe Tasks iOS SDK consumed via vendored xcframeworks at `mobile/ios/Vendor/MediaPipe/` (Git LFS), wrapped behind a `PoseProvider` protocol in two local Swift Packages (`PoseKit` for the abstraction, `MediaPipeKit` for the MediaPipe-specific implementation). CocoaPods was abandoned because of an Info.plist mismatch + Xcode 26 explicit-module-build incompatibility; SPM-from-Google does not exist as of 2026-04. See `design/adr/0001-vendored-mediapipe-not-cocoapods.md`.
 - **Data layer:** SwiftData with CloudKit sync from day 1. Cross-device shot history (iPhone / iPad / watch) is essentially free; avoids ever building a custom sync layer. Migrate to GRDB if a SwiftData wall ever appears (rare for this data shape).
 - **Backend:** none. Bundled templates + CloudKit (private container) only.
 - **CI:** single iOS job (`macos-latest`, Xcode). Python jobs untouched.
@@ -213,7 +213,7 @@ The margin is narrow. A remains the runner-up. But under the "optimise for AI-as
 - **UI:** SwiftUI + Observation (`@Observable` / `@Bindable`).
 - **Camera + recording:** `AVCaptureSession` + `AVCaptureMovieFileOutput`. Landscape-only for shooting form capture.
 - **Video playback (Compare screen):** two `AVPlayer`s sharing a clock via `CADisplayLink` for sub-frame sync.
-- **Pose extraction:** MediaPipe Tasks iOS via Swift Package Manager. 18-joint config; Savitzky-Golay smoothing parameters lifted from `FollowThrough/source/SkeletonMaker.py`.
+- **Pose extraction:** MediaPipe Pose Landmarker, Heavy variant (`pose_landmarker_heavy.task`, ~30MB), wrapped behind PoseKit's `PoseProvider` protocol via `MediaPipeKit`. 33 BlazePose keypoints mapped to the canonical 18-joint set in `MediaPipePoseProvider.mapToCanonical(_:)`. Savitzky-Golay smoothing parameters lifted from `FollowThrough/source/SkeletonMaker.py`. Pose-model selection rationale in `design/pose-model-evaluation-2026-04.md`; re-evaluation triggers (when to revisit the model choice) documented there.
 - **Persistence:** SwiftData + CloudKit (private container).
 - **Charts:** Swift Charts (per-joint deviation bar chart, wrist-trajectory line chart).
 - **Async:** Swift Concurrency (`async/await`, `actor`, `AsyncSequence`).

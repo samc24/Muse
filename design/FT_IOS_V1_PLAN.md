@@ -37,7 +37,7 @@ While waiting for Apple Developer Program approval (24-48h), Xcode install + iCl
 
 **MediaPipe Tasks iOS perf check** (the only v1 gate from `MOBILE_ARCHITECTURE.md`).
 
-- Bundle a single shot clip from `demo/static/` into the Xcode project, run MediaPipe Tasks iOS on it via Swift Package Manager, measure sustained fps for the 18-joint pose config on iPhone 17.
+- Bundle a single shot clip from `demo/static/` into the Xcode project, run MediaPipe Tasks iOS Heavy on it via `MediaPipePoseProvider` (in the local `MediaPipeKit` Swift Package, which consumes the vendored xcframeworks under `mobile/ios/Vendor/MediaPipe/`), measure sustained fps for the 18-joint canonical pose config on iPhone 17.
 - Pass: 30fps sustained over 5+ seconds.
 - Fail: drops to <20fps. v1 falls back to record-then-analyse (no real-time feedback); v1.5 watch becomes IMU-only.
 - iPhone 17 (A19 chip) makes this functionally guaranteed; we still validate on real hardware as a habit.
@@ -93,12 +93,15 @@ Muse/mobile/ios/
 +- README.md                            # build + run + test
 ```
 
-### Dependencies (SPM)
+### Dependencies
 
-- `MediaPipeTasksVision` (Google) -- on-device pose estimation.
+- `MediaPipeTasksVision` (Google, Apache 2.0) -- on-device pose estimation, **vendored xcframeworks** at `mobile/ios/Vendor/MediaPipe/`, consumed via a local Swift Package at `mobile/ios/Packages/MediaPipeKit/`. Google does not ship MediaPipe iOS as a Swift Package (as of 2026-04); the CocoaPods path was abandoned because the xcframework's Info.plist mismatch with CocoaPods 1.16.2 + Xcode 26 fights more than it ships. See `design/adr/0001-vendored-mediapipe-not-cocoapods.md` for the full rationale.
+- `PoseKit` -- our own pose-source-agnostic protocol + types, also a local Swift Package at `mobile/ios/Packages/PoseKit/`. The swap-abstraction that makes the pose-model choice reversible.
 - No others for v1.
 
-Native frameworks (no SPM): SwiftUI, SwiftData, AVFoundation, CoreMotion (idle until v1.5), Swift Charts, CloudKit, OSLog.
+Native frameworks (built-in, no package manager): SwiftUI, SwiftData, AVFoundation, CoreMotion (idle until v1.5), Swift Charts, CloudKit, OSLog.
+
+The pose model variant is **Heavy** (`pose_landmarker_heavy.task`, ~30MB), per `design/pose-model-evaluation-2026-04.md`.
 
 ### `.gitignore` additions for `mobile/ios/`
 
@@ -143,7 +146,7 @@ Goal: app builds, signs, deploys to Sameer's iPhone, shows a SwiftUI "Hello" scr
 - Xcode project scaffold per directory layout above.
 - Bundle ID `com.sameerc.followthrough`, signing configured for Sameer's Apple Developer team.
 - iCloud capability + container `iCloud.com.sameerc.followthrough` provisioned (CloudKit dashboard).
-- SPM dependency: `MediaPipeTasksVision` added (not used yet -- just verify it resolves).
+- Vendor MediaPipe xcframeworks under `mobile/ios/Vendor/MediaPipe/` (binaries via Git LFS). Local Swift Packages `PoseKit` and `MediaPipeKit` at `mobile/ios/Packages/`, consumed by the FollowThrough target. See `mobile/ios/README.md` for the one-time wire-up procedure.
 - Single SwiftUI screen: app name, version, build number, "MediaPipe loaded: yes/no" status.
 - Build to simulator -> works. Build to iPhone 17 over USB -> works. Trust developer profile on device.
 - First commits on `ft-ios`.
@@ -206,7 +209,7 @@ After Sprint 3, the pipeline is real. The remaining phases below build proper sc
 
 Solo + no review ritual = one PR back to main, but commits inside the branch are small + reviewable + bisectable. Roughly one commit per sub-step within a phase. Examples:
 
-- `Bootstrap: Xcode project + SPM + Hello world`
+- `Bootstrap: Xcode project + vendored MediaPipe xcframeworks (LFS) + Hello world`
 - `Add SwiftData models (Pro, Shot, Session)`
 - `Port analysis.py to Analysis.swift`
 - `Add XCTest fixtures from demo/analysis.py outputs`
