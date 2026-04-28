@@ -79,6 +79,7 @@
 				4277162A2F9EAF83009E5C43 /* FollowThroughTests */,
 				427716342F9EAF83009E5C43 /* FollowThroughUITests */,
 				427716192F9EAF81009E5C43 /* Products */,
+				EE589496B8A5FBD218828353 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -90,6 +91,13 @@
 				427716312F9EAF83009E5C43 /* FollowThroughUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		EE589496B8A5FBD218828353 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -111,8 +119,6 @@
 				4277161A2F9EAF81009E5C43 /* FollowThrough */,
 			);
 			name = FollowThrough;
-			packageProductDependencies = (
-			);
 			productName = FollowThrough;
 			productReference = 427716182F9EAF81009E5C43 /* FollowThrough.app */;
 			productType = "com.apple.product-type.application";
@@ -134,8 +140,6 @@
 				4277162A2F9EAF83009E5C43 /* FollowThroughTests */,
 			);
 			name = FollowThroughTests;
-			packageProductDependencies = (
-			);
 			productName = FollowThroughTests;
 			productReference = 427716272F9EAF83009E5C43 /* FollowThroughTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -157,8 +161,6 @@
 				427716342F9EAF83009E5C43 /* FollowThroughUITests */,
 			);
 			name = FollowThroughUITests;
-			packageProductDependencies = (
-			);
 			productName = FollowThroughUITests;
 			productReference = 427716312F9EAF83009E5C43 /* FollowThroughUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -417,6 +419,7 @@
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_ENABLE_EXPLICIT_MODULES = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -450,6 +453,7 @@
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_ENABLE_EXPLICIT_MODULES = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -471,6 +475,7 @@
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_ENABLE_EXPLICIT_MODULES = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -493,6 +498,7 @@
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_ENABLE_EXPLICIT_MODULES = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -513,6 +519,7 @@
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_ENABLE_EXPLICIT_MODULES = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -533,6 +540,7 @@
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_ENABLE_EXPLICIT_MODULES = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

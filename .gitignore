@@ -50,9 +50,8 @@ mobile/ios/**/build/
 mobile/ios/**/.swiftpm/
 mobile/ios/**/*.moved-aside
 mobile/ios/**/*.hmap
-# Carthage / CocoaPods (not used yet, but safe to pre-ignore)
-mobile/ios/**/Carthage/
-mobile/ios/**/Pods/
+# macOS clutter inside mobile/ios
+mobile/ios/**/.DS_Store
 
 # Claude Code hygiene setup -- kept local, not committed
 /.claude/

@@ -1,0 +1,9 @@
+# MediaPipe vendored binaries -- tracked via Git LFS so the repo stays small
+# and the 169MB simulator graph .a stays under GitHub's 100MB hard limit.
+Vendor/MediaPipe/**/*.a filter=lfs diff=lfs merge=lfs -text
+Vendor/MediaPipe/MediaPipeTasksCommon.xcframework/**/MediaPipeTasksCommon filter=lfs diff=lfs merge=lfs -text
+Vendor/MediaPipe/MediaPipeTasksVision.xcframework/**/MediaPipeTasksVision filter=lfs diff=lfs merge=lfs -text
+
+# MediaPipe pose model weights -- 29MB, comfortably under GitHub's per-file
+# limit but bundled here for clean LFS-only large-binary policy in mobile/ios.
+FollowThrough/FollowThrough/Resources/models/*.task filter=lfs diff=lfs merge=lfs -text
