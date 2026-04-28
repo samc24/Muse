@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		23349D1DAEC4BBEDAE63EAF0 /* PoseKit in Frameworks */ = {isa = PBXBuildFile; productRef = 712CC51C8A2EA8AB448621FA /* PoseKit */; };
+		C33EA6EECD206E2993021548 /* MediaPipeKit in Frameworks */ = {isa = PBXBuildFile; productRef = E524A64017F67A4ED7655ADF /* MediaPipeKit */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		427716282F9EAF83009E5C43 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -32,16 +37,22 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		4277161A2F9EAF81009E5C43 /* FollowThrough */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
 			path = FollowThrough;
 			sourceTree = "<group>";
 		};
 		4277162A2F9EAF83009E5C43 /* FollowThroughTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
 			path = FollowThroughTests;
 			sourceTree = "<group>";
 		};
 		427716342F9EAF83009E5C43 /* FollowThroughUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
 			path = FollowThroughUITests;
 			sourceTree = "<group>";
 		};
@@ -52,6 +63,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23349D1DAEC4BBEDAE63EAF0 /* PoseKit in Frameworks */,
+				C33EA6EECD206E2993021548 /* MediaPipeKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,6 +132,10 @@
 				4277161A2F9EAF81009E5C43 /* FollowThrough */,
 			);
 			name = FollowThrough;
+			packageProductDependencies = (
+				712CC51C8A2EA8AB448621FA /* PoseKit */,
+				E524A64017F67A4ED7655ADF /* MediaPipeKit */,
+			);
 			productName = FollowThrough;
 			productReference = 427716182F9EAF81009E5C43 /* FollowThrough.app */;
 			productType = "com.apple.product-type.application";
@@ -197,6 +214,10 @@
 			);
 			mainGroup = 4277160F2F9EAF81009E5C43;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				CD4516FC4ABD61F7C4C4F8D0 /* XCLocalSwiftPackageReference "PoseKit" */,
+				35F1FE45182E66CB045F1EAE /* XCLocalSwiftPackageReference "MediaPipeKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 427716192F9EAF81009E5C43 /* Products */;
 			projectDirPath = "";
@@ -401,6 +422,10 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CYK92TAB8C;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../Vendor/MediaPipe",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -413,6 +438,19 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
+				"OTHER_LDFLAGS[sdk=iphoneos*]" = (
+					"$(inherited)",
+					"-force_load \"$(SRCROOT)/../Vendor/MediaPipe/graph_libraries/libMediaPipeTasksCommon_device_graph.a\"",
+				);
+				"OTHER_LDFLAGS[sdk=iphonesimulator*]" = (
+					"$(inherited)",
+					"-force_load \"$(SRCROOT)/../Vendor/MediaPipe/graph_libraries/libMediaPipeTasksCommon_simulator_graph.a\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.sameerc.followthrough;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -435,6 +473,10 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CYK92TAB8C;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../Vendor/MediaPipe",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -447,6 +489,19 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
+				"OTHER_LDFLAGS[sdk=iphoneos*]" = (
+					"$(inherited)",
+					"-force_load \"$(SRCROOT)/../Vendor/MediaPipe/graph_libraries/libMediaPipeTasksCommon_device_graph.a\"",
+				);
+				"OTHER_LDFLAGS[sdk=iphonesimulator*]" = (
+					"$(inherited)",
+					"-force_load \"$(SRCROOT)/../Vendor/MediaPipe/graph_libraries/libMediaPipeTasksCommon_simulator_graph.a\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.sameerc.followthrough;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -588,6 +643,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		35F1FE45182E66CB045F1EAE /* XCLocalSwiftPackageReference "MediaPipeKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../Packages/MediaPipeKit;
+		};
+		CD4516FC4ABD61F7C4C4F8D0 /* XCLocalSwiftPackageReference "PoseKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../Packages/PoseKit;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		712CC51C8A2EA8AB448621FA /* PoseKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CD4516FC4ABD61F7C4C4F8D0 /* XCLocalSwiftPackageReference "PoseKit" */;
+			productName = PoseKit;
+		};
+		E524A64017F67A4ED7655ADF /* MediaPipeKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 35F1FE45182E66CB045F1EAE /* XCLocalSwiftPackageReference "MediaPipeKit" */;
+			productName = MediaPipeKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 427716102F9EAF81009E5C43 /* Project object */;
 }

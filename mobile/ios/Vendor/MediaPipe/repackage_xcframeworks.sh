@@ -14,6 +14,14 @@
 #   1. Setting LibraryPath to <Name>.framework
 #   2. Removing HeadersPath (the .framework's own Headers/ is used instead)
 #
+# It also generates stub Info.plist files INSIDE each .framework slice.
+# Static frameworks don't strictly need an Info.plist, but Xcode's
+# binaryTarget auto-embed step copies the .framework into <App>.app/
+# Frameworks/ at build time and refuses to copy a framework without an
+# Info.plist. The stub satisfies the requirement without changing semantics
+# (the inner binary is still a static lib that's force-loaded into the
+# main app binary).
+#
 # Run ONCE after dropping new MediaPipe xcframeworks into Vendor/MediaPipe/.
 # Idempotent -- safe to re-run.
 
@@ -49,6 +57,28 @@ repackage() {
     done
 
     echo "  [ok]   ${name}: LibraryPath -> ${name}.framework, HeadersPath removed"
+
+    # Stub Info.plists inside each slice's .framework so Xcode's auto-embed
+    # build step can copy them into <App>.app/Frameworks/.
+    for slice_dir in "${VENDOR_DIR}/${name}.xcframework"/*/; do
+        local fw_plist="${slice_dir}${name}.framework/Info.plist"
+        # If the framework dir doesn't exist (skipped slice), continue.
+        [[ -d "${slice_dir}${name}.framework" ]] || continue
+        /usr/libexec/PlistBuddy \
+            -c "Clear dict" \
+            -c "Add :CFBundleDevelopmentRegion string en" \
+            -c "Add :CFBundleExecutable string ${name}" \
+            -c "Add :CFBundleIdentifier string com.google.mediapipe.${name}" \
+            -c "Add :CFBundleInfoDictionaryVersion string 6.0" \
+            -c "Add :CFBundleName string ${name}" \
+            -c "Add :CFBundlePackageType string FMWK" \
+            -c "Add :CFBundleShortVersionString string 0.10.33" \
+            -c "Add :CFBundleSupportedPlatforms array" \
+            -c "Add :CFBundleVersion string 0.10.33" \
+            -c "Add :MinimumOSVersion string 17.4" \
+            "${fw_plist}" >/dev/null
+    done
+    echo "  [ok]   ${name}: stub Info.plist written inside each .framework slice"
 }
 
 echo "Repackaging xcframeworks in ${VENDOR_DIR}..."
