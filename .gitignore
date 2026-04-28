@@ -42,12 +42,14 @@ logs/
 # iOS app assets + bundled videos (Assets.xcassets, pro shot clips, etc.)
 !mobile/ios/**
 
-# Xcode / iOS
+# Xcode / iOS / Swift Package Manager
 mobile/ios/**/xcuserdata/
 mobile/ios/**/*.xcuserstate
 mobile/ios/**/DerivedData/
 mobile/ios/**/build/
+mobile/ios/**/.build/
 mobile/ios/**/.swiftpm/
+mobile/ios/**/Package.resolved
 mobile/ios/**/*.moved-aside
 mobile/ios/**/*.hmap
 # macOS clutter inside mobile/ios
