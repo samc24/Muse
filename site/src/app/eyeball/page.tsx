@@ -40,19 +40,22 @@ export default function EyeBallPage() {
           </div>
 
           <h1 className="h-display max-w-4xl">
-            Follow the ball.
+            Follow the ball
             <br />
-            <span className="text-muted">Understand the play.</span>
+            <span className="text-muted">to understand the play.</span>
           </h1>
 
           <p className="mt-8 text-lg sm:text-xl text-muted-strong max-w-3xl leading-relaxed">
-            EyeBall follows the basketball across game film. A Kalman filter
-            stitches noisy detections into a smooth trajectory; its shape
-            tells you when passes happen. Layer in other signals -- dribbles,
-            player position, clock state -- and you get actions, and from
-            actions, plays: the coaching surface the box score never
-            captures. The same primitive also drives a synthetic broadcast
-            camera for amateur footage, no operator required.
+            I&apos;ve always been a proponent of the eye-test: watching games
+            tells you more about plays and players than paper stats. At any
+            real scale it&apos;s very expensive to watch and parse that much
+            footage, so EyeBall automates it. It starts by following the
+            ball. A Kalman filter stitches noisy detections into a smooth
+            trajectory, and the shape of that trajectory tells you when
+            passes happen. Layer in dribbles, player position, and clock
+            state and you get actions, and from actions, plays. The same
+            tracking also drives a synthetic broadcast camera for amateur
+            footage, no operator required.
           </p>
         </div>
       </section>
@@ -69,10 +72,9 @@ export default function EyeBallPage() {
               A classic crossover-and-finish. The ball changes direction and
               speed twice per second and briefly disappears behind MJ&apos;s
               body at the rim. The system holds the trajectory through all of
-              it -- the kind of possession the box score never explains.
-              That&apos;s the starting point for any downstream analytics:
-              if you can&apos;t follow the ball, you can&apos;t measure the
-              play.
+              it. That&apos;s the starting point for any downstream
+              analytics: if you can&apos;t follow the ball, you can&apos;t
+              measure the play.
             </p>
           </div>
           <div className="md:col-span-3">
@@ -102,9 +104,8 @@ export default function EyeBallPage() {
               with dribble detection, player position, and shot-clock
               state and you get action detection -- pick-and-roll,
               hand-off, off-ball screen, isolation -- and from there,
-              play detection. That&apos;s the coaching surface I&apos;m
-              building toward: the box score never tells you which
-              actions actually got run.
+              play detection. That&apos;s what I&apos;m building toward:
+              the box score never tells you which actions actually got run.
             </p>
             <p className="mt-4 text-xs text-muted leading-relaxed">
               Under the hood, no training data required: HSV + contour
@@ -160,16 +161,20 @@ export default function EyeBallPage() {
         <div className="max-w-3xl">
           <p className="overline text-accent">Downstream application</p>
           <h2 className="mt-4 text-4xl sm:text-5xl font-semibold tracking-tight leading-[1.05]">
-            Virtual panning.
+            Broadcast amateur games
             <br />
-            <span className="text-muted">No operator, still a broadcast.</span>
+            <span className="text-muted">without a camera operator.</span>
           </h2>
           <p className="mt-6 text-muted-strong leading-relaxed text-lg">
-            Almost no amateur game has a camera operator. A stationary wide
-            panorama turns into a real broadcast by tracking the action and
-            rendering a synthetic 16:9 pan over it. Motion inside a court ROI
-            drives the pan target; Savitzky-Golay keeps the crop from
-            jittering.
+            Amateur clubs and leagues don&apos;t have an efficient,
+            cost-effective way to broadcast their games professionally. An
+            amateur club coach in Spain reached out to me about exactly this,
+            and the system was installed at his facility. A fixed panoramic
+            camera records the whole court, EyeBall tracks the action and
+            renders a synthetic 16:9 pan over it, and parents, players, and
+            fans get professional-looking film with no human involved beyond
+            pressing start. Motion inside a court ROI drives the pan target;
+            Savitzky-Golay keeps the crop from jittering.
           </p>
         </div>
 

@@ -4,11 +4,11 @@ import { Timeline } from "@/components/Timeline";
 export const metadata = {
   title: "About",
   description:
-    "ML Engineer II at Amazon (Prime Video) and Lead Software Engineer at MIT PSFC (DisruptionPy). Prior: Cerebro Sports, Microsoft M365 Security, AI.Reverie, Red Hat OpenShift. BU: MS AI + Deep Learning, BS CS + Astrophysics.",
+    "ML Engineer II at Amazon Prime Video and Lead Software Engineer at MIT PSFC (DisruptionPy). Prior: Cerebro Sports, Microsoft M365 Security, AI.Reverie, Red Hat OpenShift. BU: MS AI + Deep Learning, BS CS + Astrophysics.",
   openGraph: {
     title: "About -- Sameer Chaturvedi",
     description:
-      "Engineer at Amazon and MIT. Basketball lifer building the tools I wish we had.",
+      "ML + software engineer at Amazon and MIT. Building AI for basketball to bridge the gap between the eye-test and counting stats.",
   },
 };
 
@@ -24,10 +24,11 @@ export default function AboutPage() {
               <p className="overline">About</p>
               <h1 className="mt-5 h-display">Sameer Chaturvedi</h1>
               <p className="mt-6 text-lg sm:text-xl text-muted-strong leading-relaxed max-w-2xl">
-                Full-stack software engineer. Basketball lifer. I ship
-                ML, mobile, and web systems end-to-end -- turning game
-                film into numbers coaches, scouts, and front offices can
-                actually use.
+                I&apos;m an ML + software engineer. Basketball has been the
+                main constant in my life, and the driving motivator behind
+                my mentality, perspectives, and success. I build AI for the
+                game, and I bring the same engineering to recommendation
+                systems at Amazon and fusion research at MIT.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <a
@@ -97,16 +98,24 @@ export default function AboutPage() {
           <div className="card-raised rounded-2xl p-8">
             <p className="overline text-accent">Basketball</p>
             <p className="mt-4 text-lg text-foreground leading-snug font-medium">
-              Give back to the game that has given so much.
+              Give back to the game that has given so much to us all.
             </p>
             <p className="mt-4 text-muted-strong leading-relaxed">
-              Basketball has been the main constant in my life -- the
-              driving motivator behind my mentality, perspectives, and
-              success. I build AI for basketball -- from the models
-              themselves to the iOS and web apps that put them in a
-              coach&apos;s hands -- to bridge the eye-test and counting
-              stats for coaching, scouting, and training. I play every
-              day. The love of the art drives the work.
+              The game found me after I moved from California to India
+              before high school. No coach, rare courts, broken wooden
+              backboards, and sometimes all I had was my ball. I taught
+              myself, became an early member of Jr. NBA and NBA India, and
+              got deep into the community working to grow the game there.
+              The sheer lack of resources is what pushed me to build.
+            </p>
+            <p className="mt-4 text-muted-strong leading-relaxed">
+              Follow Through started with me recording my own jumper,
+              watching pros on TV, and tweaking micromovements. It became an
+              app that gives anyone with a phone the coaching feedback I
+              never had. I play every day, and I&apos;m not chasing a
+              shortcut into the league. I&apos;m chasing mastery: seeing the
+              game clearly, articulating insights simply, and helping
+              players reach their ceiling.
             </p>
           </div>
 
@@ -121,17 +130,26 @@ export default function AboutPage() {
               Physics
             </p>
             <p className="mt-4 text-lg text-foreground leading-snug font-medium">
-              Engineering with purpose -- build the tools that extend what
-              we can perceive and what we can power.
+              Engineering with purpose.
             </p>
             <p className="mt-4 text-muted-strong leading-relaxed">
-              I studied astrophysics as an undergrad, and today I write
-              software for plasma-fusion research at MIT: two ends of the
-              same obsession with how the universe actually works and how
-              we harness it. Observational instruments stretched our senses
-              for centuries. ML and software are the next stretch --
-              letting us see further, model deeper, and extract energy
-              from the phenomena that built us.
+              I studied astrophysics alongside computer science, and in
+              college I faced a choice: pursue a physics Ph.D. in a niche
+              academic subarea, or develop my engineering intuition to build
+              tools with immediate, real-world impact. I chose engineering.
+              We build instruments to stretch our perception, to glimpse
+              truths inaccessible to our raw senses, and that recursive
+              process, discovery leading to tools that unlock further
+              discovery, is what I want to be part of.
+            </p>
+            <p className="mt-4 text-muted-strong leading-relaxed">
+              Today that means software for plasma fusion research at MIT:
+              gold-standard engineering applied to the framework code that
+              is rarely in a scientist&apos;s time budget, so physicists can
+              spend their limited time on the physics. I believe evolution
+              is no longer strictly biological. It&apos;s technological.
+              There are always more problems to solve, more tools to build,
+              more boundaries to shatter.
             </p>
           </div>
         </div>
@@ -141,13 +159,13 @@ export default function AboutPage() {
       <section className="mx-auto max-w-4xl px-6 py-12">
         <p className="overline">Experience</p>
         <h2 className="mt-4 text-3xl sm:text-4xl font-semibold tracking-tight">
-          Where I&apos;ve shipped.
+          Where I&apos;ve worked.
         </h2>
         <p className="mt-4 text-muted-strong max-w-2xl">
-          Recommendation systems at Amazon. Scientific software at MIT.
-          Live-basketball analytics at Cerebro Sports. Petabyte-scale
-          security ML at Microsoft. On-device computer vision at AI.Reverie.
-          Upstream Kubernetes runtimes at Red Hat. The range is the point.
+          Currently at Amazon Prime Video and MIT&apos;s Plasma Science and
+          Fusion Center. Before that: four years at Microsoft on M365
+          security, a short contract at Cerebro Sports, on-device computer vision
+          at AI.Reverie, and Kubernetes container runtimes at Red Hat.
         </p>
 
         <div className="mt-14">
@@ -181,11 +199,36 @@ export default function AboutPage() {
         </dl>
       </section>
 
+      {/* Outside the day job, resume-grounded */}
+      <section className="mx-auto max-w-4xl px-6 py-16 border-t hairline">
+        <p className="overline">Also</p>
+        <h2 className="mt-4 text-3xl font-semibold tracking-tight">
+          Outside the day job.
+        </h2>
+        <ul className="mt-8 space-y-3">
+          {[
+            "Technical mentor at the Boston University Innovation Program, 2023 to 2025.",
+            "Official speaker at DevConf.us 2019 in Boston: “Sports Science: ML for Skill Analysis”.",
+            "hackNY technical fellow, 2020. BU Spark! technical fellow, 2018 to 2019.",
+            "BostonHacks 2018 winner with BostonCracks: a sidewalk damage score from semantic segmentation of Street View frames, for equitable repair.",
+            "Vice President of OpenWeb, BU’s coding and app development student org, 2020 to 2021.",
+            "Hosted an NBA podcast.",
+          ].map((it) => (
+            <li
+              key={it}
+              className="text-muted-strong leading-relaxed pl-4 relative before:content-['-'] before:absolute before:left-0 before:text-muted"
+            >
+              {it}
+            </li>
+          ))}
+        </ul>
+      </section>
+
       {/* Skills, resume-grounded */}
       <section className="mx-auto max-w-4xl px-6 py-16 border-t hairline">
         <p className="overline">Skills</p>
         <h2 className="mt-4 text-3xl font-semibold tracking-tight">
-          What I&apos;ve shipped with.
+          What I&apos;ve worked with.
         </h2>
         <p className="mt-4 text-muted-strong max-w-2xl">
           Everything below is from production work or research, tagged to
@@ -195,8 +238,10 @@ export default function AboutPage() {
           <StackBucket
             label="Recommendation + ranking"
             items={[
-              "Mixture-of-Retrieval ML models (Amazon)",
+              "Contextual multi-armed bandits in production across 6 regions (Amazon)",
+              "Sequence-aware collaborative filtering + ANN retrieval (Amazon)",
               "Logistic regression, stratified sampling, softmax tuning (Amazon)",
+              "Staged A/B dial-ups with latency + availability guardrails (Amazon)",
               "Cross-service content-filtering pipelines (Amazon)",
             ]}
           />
@@ -213,6 +258,8 @@ export default function AboutPage() {
             label="Distributed systems"
             items={[
               "Spark, PySpark, Azure Functions (Microsoft)",
+              "Airflow on EMR on EKS, AWS CDK, multi-region pipelines (Amazon)",
+              "Tier-1 oncall, Sev2 root-causing, infra cost planning (Amazon)",
               "CI/CD, real-time job monitoring (Microsoft)",
               "Auto-failover geo-replicated BCDR (Microsoft)",
               "CRI-O, Libpod, Kubernetes container runtimes (Red Hat)",
@@ -227,11 +274,12 @@ export default function AboutPage() {
             ]}
           />
           <StackBucket
-            label="Live sports + LLM apps"
+            label="LLM agents + apps"
             items={[
-              "Semantic-text to SQL pipelines (Cerebro Sports)",
-              "Basketball stats DB + edge-case handling (Cerebro Sports)",
-              "LLM chat + realtime graphs + dashboards (Cerebro Sports)",
+              "Agentic oncall platform: Rust tools + agent skills for Claude Code and Kiro (Amazon)",
+              "AWS Bedrock AgentCore with per-user OAuth delegation, MCP servers (Amazon)",
+              "GPT-based security-detection assistant (Microsoft)",
+              "Semantic-text to SQL over a live stats DB (Cerebro Sports)",
             ]}
           />
           <StackBucket
@@ -264,19 +312,18 @@ export default function AboutPage() {
           <StackBucket
             label="Full-stack product"
             items={[
-              "End-to-end app: UI, API, data pipeline, LLM (Cerebro Sports)",
-              "Realtime graphs + dashboards over a stats DB (Cerebro Sports)",
               "Agile PySpark workspace with CI/CD + job monitoring (Microsoft)",
+              "LLM chat demo with realtime graphs + dashboards (Cerebro Sports)",
               "Next.js, React, TypeScript, Tailwind (this site)",
             ]}
           />
           <StackBucket
             label="Small-team engineering"
             items={[
-              "Leading features from spec to ship -- at Amazon, MIT, Microsoft",
-              "Working with scientists, analysts, and non-technical stakeholders",
+              "Leading features end to end at Amazon, MIT, and Microsoft",
+              "Working with physicists, coaches, analysts, and non-technical stakeholders",
               "Production release hygiene: CI/CD, BCDR, observability",
-              "Framework choice as a design decision, not a reflex",
+              "Mentoring student founders at the BU Innovation Program",
             ]}
           />
         </div>
