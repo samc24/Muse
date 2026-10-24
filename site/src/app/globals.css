@@ -259,3 +259,42 @@ video {
   padding: 0.85rem 1.6rem;
   font-size: 1rem;
 }
+
+/* Per-entry accent, set via inline --entry-accent on case-study cards and pages */
+.entry-accent {
+  color: var(--entry-accent);
+}
+
+.entry-card {
+  border-color: var(--border);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.entry-card:hover {
+  border-color: rgba(var(--entry-accent-rgb), 0.7);
+  box-shadow:
+    0 0 0 1px rgba(var(--entry-accent-rgb), 0.25),
+    0 20px 50px -15px rgba(var(--entry-accent-rgb), 0.25);
+}
+
+.entry-aura {
+  background:
+    radial-gradient(
+      ellipse 900px 500px at 80% 0%,
+      rgba(var(--entry-accent-rgb), 0.16),
+      transparent 60%
+    );
+}
+
+/* Print: QR page and anything else someone prints gets a white page, no chrome. */
+@media print {
+  html,
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  header,
+  footer {
+    display: none !important;
+  }
+}

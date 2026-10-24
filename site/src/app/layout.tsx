@@ -18,12 +18,12 @@ const geistMono = Geist_Mono({
 const SITE_URL = "https://sameerc.com";
 const SITE_NAME = "Sameer Chaturvedi";
 const SITE_DESC =
-  "Computer vision for basketball and scientific software for physics. Built by Sameer Chaturvedi -- engineer at Amazon and MIT, basketball lifer.";
+  "ML + software engineer. Recommendation ML at Amazon Prime Video, scientific software at MIT PSFC, and Muse: computer vision for basketball coaching, scouting, and training.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${SITE_NAME} -- Muse`,
+    default: SITE_NAME,
     template: `%s -- ${SITE_NAME}`,
   },
   description: SITE_DESC,
@@ -33,12 +33,12 @@ export const metadata: Metadata = {
     type: "website",
     url: SITE_URL,
     siteName: SITE_NAME,
-    title: `${SITE_NAME} -- Muse`,
+    title: SITE_NAME,
     description: SITE_DESC,
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE_NAME} -- Muse`,
+    title: SITE_NAME,
     description: SITE_DESC,
   },
   robots: {

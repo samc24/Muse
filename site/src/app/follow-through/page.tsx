@@ -47,16 +47,25 @@ export default function FollowThroughPage() {
           </div>
 
           <h1 className="h-display max-w-4xl">
-            Your shot,
+            Hold that
             <br />
-            <span className="text-muted">graded against the pros.</span>
+            <span className="text-muted">follow through.</span>
           </h1>
 
           <p className="mt-8 text-lg sm:text-xl text-muted-strong max-w-3xl leading-relaxed">
-            Record the shot. Follow Through extracts the shooter&apos;s pose,
-            aligns every frame to a pro reference, and returns a 0-99
-            similarity score plus the three mechanics to fix first. A coach
-            can read it in thirty seconds.
+            There&apos;s a problem with the way passionate basketball players
+            practice and improve. Hundreds of dollars and hours go to
+            stubborn coaches, online programs that are scams in disguise, and
+            mindlessly watching NBA games, and most of the world doesn&apos;t
+            have access to even that. Follow Through gives ballers immediate
+            feedback: record your shot, and it extracts your pose, lines
+            every frame up against an NBA player, and returns a 0-99
+            similarity score plus the three mechanics to fix first.
+          </p>
+
+          <p className="mt-5 text-lg sm:text-xl text-muted-strong max-w-3xl leading-relaxed">
+            It started with me recording my own jumper, watching pros on TV,
+            and tweaking micromovements.
           </p>
         </div>
       </section>
@@ -116,7 +125,7 @@ export default function FollowThroughPage() {
           <Card
             n="03"
             title="Deviation + scoring"
-            body="Per-joint Euclidean distance to the reference, resampled to a common 60-frame axis. Mean deviation collapses into one number you can say out loud."
+            body="Per-joint Euclidean distance to the reference, resampled to a common 60-frame axis. Mean deviation collapses into one number."
           />
         </div>
       </section>
@@ -136,21 +145,21 @@ export default function FollowThroughPage() {
               The product layer
             </p>
             <h3 className="mt-4 text-3xl sm:text-4xl font-semibold tracking-tight max-w-3xl leading-tight">
-              A score is the headline.
+              The score says how close you are.
               <br />
               <span className="text-muted">
-                Advice is what you do with it.
+                The advice says what to change.
               </span>
             </h3>
             <p className="mt-6 text-muted-strong leading-relaxed max-w-3xl">
-              The score answers <em>how close am I?</em> The coaching layer
-              answers <em>what do I change?</em> For the three most-deviated
+              Mathematical analysis of your movements, turned into concrete
+              steps to get to the next level. For the three most-deviated
               joints, the system writes specific cues in plain English:
               vertical offsets (&quot;elbow drops 8% lower than Nash at
               release&quot;), lateral offsets (&quot;guide-hand wrist drifts
               across the body&quot;), and timing deltas. The whole analysis
-              layer is pure functions -- no UI, no framework, ready to ship
-              on a phone.
+              layer is pure functions with no UI and no framework, so it
+              drops straight into the phone app.
             </p>
             <dl className="mt-10 grid sm:grid-cols-3 gap-8">
               <Stat label="Joints tracked" value="18" />
@@ -270,7 +279,7 @@ export default function FollowThroughPage() {
           <StackRow label="Smoothing">Savitzky-Golay, per-joint</StackRow>
           <StackRow label="Analysis">Pure Python: NumPy + Pandas, zero UI deps</StackRow>
           <StackRow label="Tests">pytest; contract tests on every public function</StackRow>
-          <StackRow label="Mobile target">KMP shared + Compose / SwiftUI native UI</StackRow>
+          <StackRow label="Mobile">iOS: SwiftUI with MediaPipe pose on device</StackRow>
           <StackRow label="Video I/O">OpenCV + H.264 transcode for browser delivery</StackRow>
         </ul>
       </section>
