@@ -17,9 +17,11 @@ export const amazonPrimeVideo: CaseStudy = {
     "Core developer of Son of Anton, the team's agentic AI oncall platform: 7 Rust tools and 17 agent skills that give LLM agents live access to production systems, run in Claude Code and Kiro. It became the team's standard way to investigate production issues.",
     "Shipped one of the first AWS Bedrock AgentCore agents with per-user OAuth on-behalf-of delegation: platform GA to a production runtime in 8 days, now live in Slack answering as each requester.",
     "Worked across two generations of a worldwide subscription-channel recommender: a contextual multi-armed bandit learning in 6 regions, and its replacement, a sequence-aware collaborative-filtering model served through approximate-nearest-neighbor retrieval, whose 8-market A/B launch I owned.",
+    "Fixed a genre-carousel share-of-voice model whose logistic regression predicted about 20% for every strategy: hashed interaction features, stratified sampling per benefit after finding one made up over 90% of positives, and a lower softmax temperature at inference. Launched through a staged A/B dial-up from 1% to 100%.",
     "Root-caused months of silent recommendation degradation in one region to a stale upstream input, shipped six iterations of data-freshness safeguards, recovered the fleet across six regions, and built an automated health monitor (PySpark, Airflow on EMR on EKS, 80 tests).",
     "Argued for a final A/B test before a planned carousel retirement. It showed significant subscription lift (+134K annualized), reversed the decision, and led to worldwide expansion.",
     "Delivered a cross-org Fire TV home-screen filtering cap, caught four silent-failure modes before ship, and built and ran the partner's production load tests, cutting the required load about 3x.",
+    "Architected cross-service filtering for subscription-bundle rows: per-request entitlement parsing from the access token, a new filter token for the shared filtering service, and AND-versus-OR semantics solved inside the existing engine instead of a rewrite.",
     "Owned annual infrastructure cost planning for two rounds (about 7.5% year-over-year reduction against a 5% target) and tier-1 oncall: 11 primary weeks and about 20 Sev2 incidents.",
     "Won the 2026 Prime Video hackathon with an automated NBA highlight row: live stats and play-by-play, PyTorch neural style transfer, OpenCV, ComfyUI, and stat-driven title cards.",
   ],
@@ -59,6 +61,14 @@ export const amazonPrimeVideo: CaseStudy = {
       bullets: [
         "Weekly fleet health monitor: 4 PySpark jobs and an Airflow DAG on EMR on EKS, 80 unit tests, an operational-versus-quality severity split, and an experiment-readiness go/no-go block. Validating it against live data found a real scheduled outage before it ever ran in production.",
         "One of my own changes caused a one-day production regression: a distinct() over a date column defeated partition pruning and ran out of memory. Reverted the same day, corrected, and written down as a rule.",
+      ],
+    },
+    {
+      overline: "Bundle filtering",
+      heading: "Hide what the customer can already watch.",
+      paragraphs: [
+        "My first feature, delivered during the onboarding transition. Rows that promote a subscription bundle should not show titles the customer can already watch through subscriptions they hold. I computed a per-request benefit-set difference (the customer's active benefits minus the bundle's) and passed it to the shared filtering service through a new filter token, and added a new strategy type to the content-configuration schema so business users could enable the feature per row without a deploy.",
+        "Two things the design did not anticipate. The context source we were reading benefits from dropped free and ad-supported benefits, which had been over-filtering rows, so I moved the source to the authoritative access-token protobuf. And bundles needed AND semantics where regular rows use OR, which I solved with isolated item groups inside the existing filtering engine rather than rebuilding filtering logic in our service. A triple-negation result-processing path became a dedicated transformer with 18 unit tests, separating what to filter from how to interpret results.",
       ],
     },
     {
