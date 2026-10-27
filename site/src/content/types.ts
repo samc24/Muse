@@ -60,6 +60,8 @@ export type CaseStudy = {
   logo?: string;
   /** Optional poster video under /public for the card. */
   posterVideo?: string;
+  /** Optional still poster under /public for the card, for projects without a clip. */
+  posterImage?: string;
   /**
    * When set, cards link here instead of /work/<slug> or /projects/<slug>,
    * and no case-study page is generated. Used for Muse, which has its own

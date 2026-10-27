@@ -12,7 +12,7 @@ import { AutoplayVideo } from "./AutoplayVideo";
  */
 export function EntryCard({ entry }: { entry: CaseStudy }) {
   const href = hrefFor(entry);
-  const media = Boolean(entry.posterVideo);
+  const media = Boolean(entry.posterVideo || entry.posterImage);
 
   return (
     <Link
@@ -22,11 +22,21 @@ export function EntryCard({ entry }: { entry: CaseStudy }) {
     >
       {media && (
         <div className="relative aspect-[16/9] w-full overflow-hidden bg-black">
-          <AutoplayVideo
-            src={entry.posterVideo!}
-            poster={posterFor(entry.posterVideo!)}
-            className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
-          />
+          {entry.posterVideo ? (
+            <AutoplayVideo
+              src={entry.posterVideo}
+              poster={posterFor(entry.posterVideo)}
+              className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+            />
+          ) : (
+            <Image
+              src={entry.posterImage!}
+              alt=""
+              width={1280}
+              height={720}
+              className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+            />
+          )}
           <div className="absolute inset-0 bg-gradient-to-t from-surface-raised via-transparent to-transparent" />
         </div>
       )}
