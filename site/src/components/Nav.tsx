@@ -2,7 +2,10 @@ import Link from "next/link";
 
 const LINKS = [
   { href: "/work", label: "Work", short: "Work" },
-  { href: "/muse", label: "Muse", short: "Muse" },
+  { href: "/projects", label: "Projects", short: "Projects" },
+  // Muse is the first project card and sits on the home page, so on phones
+  // it drops out of the bar to keep four items on one row.
+  { href: "/muse", label: "Muse", short: "Muse", phone: false },
   { href: "/about", label: "About", short: "About" },
 ];
 
@@ -24,7 +27,9 @@ export function Nav() {
             <Link
               key={l.href}
               href={l.href}
-              className="text-muted hover:text-foreground transition-colors px-2 sm:px-3 py-1.5"
+              className={`text-muted hover:text-foreground transition-colors px-2 sm:px-3 py-1.5 ${
+                l.phone === false ? "hidden sm:inline-block" : ""
+              }`}
               aria-label={l.label}
             >
               <span className="sm:hidden">{l.short}</span>
