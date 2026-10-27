@@ -3,6 +3,8 @@ import Image from "next/image";
 import type { CaseStudy } from "@/content/types";
 import { hrefFor } from "@/content";
 import { accentVars } from "@/lib/accent";
+import { posterFor } from "@/lib/media";
+import { AutoplayVideo } from "./AutoplayVideo";
 
 /**
  * Card for a role or project. Renders from a CaseStudy; links to its page.
@@ -20,13 +22,9 @@ export function EntryCard({ entry }: { entry: CaseStudy }) {
     >
       {media && (
         <div className="relative aspect-[16/9] w-full overflow-hidden bg-black">
-          <video
-            src={entry.posterVideo}
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            autoPlay
+          <AutoplayVideo
+            src={entry.posterVideo!}
+            poster={posterFor(entry.posterVideo!)}
             className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-surface-raised via-transparent to-transparent" />
