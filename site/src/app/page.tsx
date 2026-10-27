@@ -152,7 +152,9 @@ export default function Home() {
               Muse is the long-running one: computer vision for basketball
               coaching, scouting, and training. The name comes from
               basketball being my muse for upskilling technologically and
-              practicing discipline.
+              practicing discipline. Exploding Catan is the newer one: a
+              board game I play with friends, rebuilt with a rules engine,
+              bots, and online play.
             </p>
           </div>
           <Link href="/projects" className="btn btn-secondary">

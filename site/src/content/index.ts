@@ -6,6 +6,7 @@ import { microsoft } from "./work/microsoft";
 import { aiReverie } from "./work/ai-reverie";
 import { redHat } from "./work/red-hat";
 import { muse } from "./projects/muse";
+import { explodingCatan } from "./projects/exploding-catan";
 
 export type { CaseStudy, Section, StackGroup, ExternalLink, Accent } from "./types";
 
@@ -19,7 +20,7 @@ export const WORK: CaseStudy[] = [
   redHat,
 ];
 
-export const PROJECTS: CaseStudy[] = [muse];
+export const PROJECTS: CaseStudy[] = [muse, explodingCatan];
 
 export const CURRENT = WORK.filter((w) => w.current);
 
