@@ -1,5 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
+import { posterFor } from "@/lib/media";
+import { AutoplayVideo } from "./AutoplayVideo";
 
 type ProjectCardProps = {
   href: string;
@@ -47,13 +49,9 @@ export function ProjectCard({
       className={`group relative flex flex-col rounded-2xl border hairline overflow-hidden bg-surface-raised transition-all duration-300 ${style.border} ${style.glow}`}
     >
       <div className="relative aspect-[16/9] w-full overflow-hidden bg-black">
-        <video
+        <AutoplayVideo
           src={posterVideo}
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          autoPlay
+          poster={posterFor(posterVideo)}
           className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-surface-raised via-transparent to-transparent" />

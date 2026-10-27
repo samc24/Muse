@@ -1,3 +1,5 @@
+import { posterFor } from "@/lib/media";
+
 type VideoClipProps = {
   src: string;
   poster?: string;
@@ -11,8 +13,8 @@ export function VideoClip({ src, poster, className = "" }: VideoClipProps) {
         controls
         muted
         playsInline
-        preload="metadata"
-        poster={poster}
+        preload="none"
+        poster={poster ?? posterFor(src)}
         src={src}
       />
     </div>
